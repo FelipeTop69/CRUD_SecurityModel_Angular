@@ -1,0 +1,8 @@
+Backend/.vs/
+Backend/.vscode/
+**/bin/
+**/obj/
+Backend/Web/appsettings.Secrets.json
+
+Frontend/.vs/
+Frontend/.vscode/
