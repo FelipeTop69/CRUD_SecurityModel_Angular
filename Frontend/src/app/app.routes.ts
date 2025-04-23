@@ -12,15 +12,18 @@ import { UpdateRolComponent } from './rol/update-rol/update-rol.component';
 import { IndiceUserComponent } from './user/indice-user/indice-user.component';
 import { FormUserComponent } from './user/create-user/create-user.component';
 import { UpdateUserComponent } from './user/update-user/update-user.component';
+import { CreateFormComponent } from './form/create-form/create-form.component';
+import { IndiceFormComponent } from './form/indice-form/indice-form.component';
+import { UpdateFormComponent } from './form/update-form/update-form.component';
 
 
 export const routes: Routes = [
     {path: '', component:LandingComponent},
 
     // Form
-    // {path: 'form', component:IndiceFormComponent},
-    // {path: 'form/create', component:CreateFormComponent},
-    // {path: 'form/update/:id', component:UpdateFormComponent},
+    {path: 'form', component:IndiceFormComponent},
+    {path: 'form/create', component:CreateFormComponent},
+    {path: 'form/update/:id', component:UpdateFormComponent},
 
     // Module
     // {path: 'module', component:IndiceModuleComponent},
