@@ -1,1 +1,56 @@
-<p>update-rol-user works!</p>
+<h2 style="text-align: center;">Actualizar RolUser</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
+    <!-- Selector de Rol -->
+    <mat-form-field appearance="outline">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="rolId" required>
+            <mat-option *ngFor="let r of rols" [value]="r.id">
+                {{ r.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('rolId')?.invalid">
+            Debes seleccionar un Rol
+        </mat-error>
+        <mat-hint *ngIf="noRolsAvailable" class="text-danger">
+            No hay Rols disponibles
+        </mat-hint>
+    </mat-form-field>
+
+    <!-- Selector de User -->
+    <mat-form-field appearance="outline">
+        <mat-label>User</mat-label>
+        <mat-select formControlName="userId" required>
+            <mat-option *ngFor="let f of users" [value]="f.id">
+                {{ f.username }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('userId')?.invalid">
+            Debes seleccionar un Form
+        </mat-error>
+        <mat-hint *ngIf="noUsersAvailable" class="text-danger">
+            No hay Forms disponibles
+        </mat-hint>
+    </mat-form-field>
+
+    <!-- Toggle para Reactivar Usuario (solo visible si status es false) -->
+    <mat-slide-toggle 
+        *ngIf="showReactivarToggle"
+        color="primary"
+        [checked]="reactivarRolUser"
+        (change)="onToggleChange($event)">
+        Reactivar 
+    </mat-slide-toggle>
+
+    <!-- Botones -->
+    <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar Cambios
+        </button>
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>

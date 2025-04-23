@@ -1,1 +1,56 @@
-<p>indice-rol-user works!</p>
+<h2>RolUser</h2>
+
+
+<button class="btn-register" mat-raised-button color="primary" routerLink="/rolUser/create">
+    <mat-icon>person_add</mat-icon> Registrar RolUser
+</button>
+
+
+<mat-card>   
+    <mat-table [dataSource]="rolUsers" class="mat-elevation-z8" *ngIf="rolUsers.length">
+
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>N°</mat-header-cell>
+            <mat-cell *matCellDef="let formModule let i = index">{{ i + 1 }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rolName">
+            <mat-header-cell *matHeaderCellDef>Rol</mat-header-cell>
+            <mat-cell *matCellDef="let formModule">{{ formModule.rolName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="userName">
+            <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+            <mat-cell *matCellDef="let formModule">{{ formModule.userName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let formModule">
+                <span [class.text-success]="formModule.status" [class.text-danger]="!formModule.status">
+                    {{ formModule.status ? 'Activo' : 'Inactivo' }}
+                </span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let formModule">
+                
+                <a mat-icon-button [routerLink]="['/rolUser/update', formModule.id]">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <button mat-icon-button class="btn-delete" (click)="eliminarUsuario(formModule)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; let i = index; columns: columnas;"></mat-row>
+    </mat-table>
+
+    <div *ngIf="rolUsers.length === 0" class="text-muted mt-4 text-center">
+        <p><i class="fa fa-hourglass"></i> No hay rolUser registrados</p>
+    </div>
+</mat-card>
