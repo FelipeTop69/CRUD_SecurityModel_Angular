@@ -1,8 +1,9 @@
 <h2 style="text-align: center;">Registrar Persona</h2>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="formulario">
+    <!-- Name -->
     <mat-form-field appearance="outline" class="w-100">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" placeholder="Digite el Name">
+        <input matInput formControlName="name" placeholder="Digite el Nombre">
         <mat-error *ngIf="form.get('name')?.hasError('required')">
             Este campo es requerido
         </mat-error>
