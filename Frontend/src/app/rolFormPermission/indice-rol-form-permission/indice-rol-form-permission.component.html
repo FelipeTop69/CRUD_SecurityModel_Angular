@@ -1,0 +1,61 @@
+<h2>RolformPermissions</h2>
+
+
+<button class="btn-register" mat-raised-button color="primary" routerLink="/rolFormPermission/create">
+    <mat-icon>person_add</mat-icon> Registrar RolformPermission
+</button>
+
+
+<mat-card>   
+    <mat-table [dataSource]="rolFormPermissions" class="mat-elevation-z8" *ngIf="rolFormPermissions.length">
+
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>N°</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission let i = index">{{ i + 1 }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rolName">
+            <mat-header-cell *matHeaderCellDef>Rol</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission">{{ rolformPermission.rolName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="formName">
+            <mat-header-cell *matHeaderCellDef>Form</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission">{{ rolformPermission.formName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="permissionName">
+            <mat-header-cell *matHeaderCellDef>Permission</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission">{{ rolformPermission.permissionName }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission">
+                <span [class.text-success]="rolformPermission.status" [class.text-danger]="!rolformPermission.status">
+                    {{ rolformPermission.status ? 'Activo' : 'Inactivo' }}
+                </span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let rolformPermission">
+                
+                <a mat-icon-button [routerLink]="['/rolFormPermission/update', rolformPermission.id]">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <button mat-icon-button class="btn-delete" (click)="eliminarUsuario(rolformPermission)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; let i = index; columns: columnas;"></mat-row>
+    </mat-table>
+
+    <div *ngIf="rolFormPermissions.length === 0" class="text-muted mt-4 text-center">
+        <p><i class="fa fa-hourglass"></i> No hay rolFormPermissions registrados</p>
+    </div>
+</mat-card>

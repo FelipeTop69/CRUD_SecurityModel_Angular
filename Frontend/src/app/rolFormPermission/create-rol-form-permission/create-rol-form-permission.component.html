@@ -1,0 +1,63 @@
+<h2 style="text-align: center;">Registrar RolFormPermission</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
+
+    <!-- Selector de Rol -->
+    <mat-form-field appearance="outline">
+        <mat-label>Selecciona un Rol</mat-label>
+        <mat-select formControlName="rolId" required>
+            <mat-option *ngFor="let r of rols" [value]="r.id">
+                {{ r.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('rolId')?.invalid">
+            Debes seleccionar un Rol
+        </mat-error>
+        <mat-hint *ngIf="noRolsAvailable" class="text-danger">
+            No hay Rols disponibles
+        </mat-hint>
+    </mat-form-field>
+
+    <!-- Selector de Form -->
+    <mat-form-field appearance="outline">
+        <mat-label>Selecciona un Form</mat-label>
+        <mat-select formControlName="formId" required>
+            <mat-option *ngFor="let f of forms" [value]="f.id">
+                {{ f.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('formId')?.invalid">
+            Debes seleccionar un Form
+        </mat-error>
+        <mat-hint *ngIf="noRolsAvailable" class="text-danger">
+            No hay Forms disponibles
+        </mat-hint>
+    </mat-form-field>
+
+        <!-- Selector de Permission -->
+        <mat-form-field appearance="outline">
+            <mat-label>Selecciona un Permission</mat-label>
+            <mat-select formControlName="permissionId" required>
+                <mat-option *ngFor="let p of permissions" [value]="p.id">
+                    {{ p.name }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('permissionId')?.invalid">
+                Debes seleccionar un Form
+            </mat-error>
+            <mat-hint *ngIf="noPermissionsAvailable" class="text-danger">
+                No hay Permissions disponibles
+            </mat-hint>
+        </mat-form-field>
+
+    <!-- Botones -->
+    <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || noRolsAvailable">
+            <mat-icon>save</mat-icon>
+            Registrar
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>

@@ -21,6 +21,9 @@ import { UpdatePermissionComponent } from './permission/update-permission/update
 import { CreateModuleComponent } from './module/create-module/create-module.component';
 import { IndiceModuleComponent } from './module/indice-module/indice-module.component';
 import { UpdateModuleComponent } from './module/update-module/update-module.component';
+import { IndiceRolFormPermissionComponent } from './rolFormPermission/indice-rol-form-permission/indice-rol-form-permission.component';
+import { UpdateRolFormPermissionComponent } from './rolFormPermission/update-rol-form-permission/update-rol-form-permission.component';
+import { CreateRolFormPermissionComponent } from './rolFormPermission/create-rol-form-permission/create-rol-form-permission.component';
 
 
 export const routes: Routes = [
@@ -57,9 +60,9 @@ export const routes: Routes = [
     {path: 'user/update/:id', component: UpdateUserComponent },
 
     // RolFormPermission
-    // {path: 'rolFormPermission', component:IndiceRolFormPermissionComponent},
-    // {path: 'rolFormPermission/create', component:CreateRolFormPermissionComponent},
-    // {path: 'rolFormPermission/update/:id', component:UpdateRolFormPermissionComponent},
+    {path: 'rolFormPermission', component:IndiceRolFormPermissionComponent},
+    {path: 'rolFormPermission/create', component:CreateRolFormPermissionComponent},
+    {path: 'rolFormPermission/update/:id', component:UpdateRolFormPermissionComponent},
 
     // FormModule
     // {path: 'formModule', component:IndiceFormModueComponent},
