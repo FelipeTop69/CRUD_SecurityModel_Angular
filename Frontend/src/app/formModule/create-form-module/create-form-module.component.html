@@ -1,0 +1,47 @@
+<h2 style="text-align: center;">Registrar FormModule</h2>
+<form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
+
+    <!-- Selector de Form -->
+    <mat-form-field appearance="outline">
+        <mat-label>Selecciona un Form</mat-label>
+        <mat-select formControlName="formId" required>
+            <mat-option *ngFor="let f of forms" [value]="f.id">
+                {{ f.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('formId')?.invalid">
+            Debes seleccionar un Form
+        </mat-error>
+        <mat-hint *ngIf="noFormsAvailable" class="text-danger">
+            No hay Rols disponibles
+        </mat-hint>
+    </mat-form-field>
+
+    <!-- Selector de Module -->
+    <mat-form-field appearance="outline">
+        <mat-label>Selecciona un Module</mat-label>
+        <mat-select formControlName="moduleId" required>
+            <mat-option *ngFor="let m of modules" [value]="m.id">
+                {{ m.name }}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('moduleId')?.invalid">
+            Debes seleccionar un Form
+        </mat-error>
+        <mat-hint *ngIf="noModuleAvailable" class="text-danger">
+            No hay Forms disponibles
+        </mat-hint>
+    </mat-form-field>
+
+    <!-- Botones -->
+    <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || noFormsAvailable || noModuleAvailable">
+            <mat-icon>save</mat-icon>
+            Registrar
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>

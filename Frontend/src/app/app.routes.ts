@@ -24,6 +24,12 @@ import { UpdateModuleComponent } from './module/update-module/update-module.comp
 import { IndiceRolFormPermissionComponent } from './rolFormPermission/indice-rol-form-permission/indice-rol-form-permission.component';
 import { UpdateRolFormPermissionComponent } from './rolFormPermission/update-rol-form-permission/update-rol-form-permission.component';
 import { CreateRolFormPermissionComponent } from './rolFormPermission/create-rol-form-permission/create-rol-form-permission.component';
+import { IndiceFormModuleComponent } from './formModule/indice-form-module/indice-form-module.component';
+import { CreateFormModuleComponent } from './formModule/create-form-module/create-form-module.component';
+import { UpdateFormModuleComponent } from './formModule/update-form-module/update-form-module.component';
+import { CreateRolUserComponent } from './rolUser/create-rol-user/create-rol-user.component';
+import { IndiceRolUserComponent } from './rolUser/indice-rol-user/indice-rol-user.component';
+import { UpdateRolUserComponent } from './rolUser/update-rol-user/update-rol-user.component';
 
 
 export const routes: Routes = [
@@ -65,12 +71,12 @@ export const routes: Routes = [
     {path: 'rolFormPermission/update/:id', component:UpdateRolFormPermissionComponent},
 
     // FormModule
-    // {path: 'formModule', component:IndiceFormModueComponent},
-    // {path: 'formModule/create', component:CreateFormModueComponent},
-    // {path: 'formModule/update/:id', component:UpdateFormModueComponent},
+    {path: 'formModule', component:IndiceFormModuleComponent},
+    {path: 'formModule/create', component:CreateFormModuleComponent},
+    {path: 'formModule/update/:id', component:UpdateFormModuleComponent},
 
     // RolUser
-    // {path: 'rolUser', component:IndiceRolUserComponent},
-    // {path: 'rolUser/create', component:CreateRolUserComponent},
-    // {path: 'rolUser/update/:id', component:UpdateRolUserComponent},
+    {path: 'rolUser', component:IndiceRolUserComponent},
+    {path: 'rolUser/create', component:CreateRolUserComponent},
+    {path: 'rolUser/update/:id', component:UpdateRolUserComponent},
 ];
