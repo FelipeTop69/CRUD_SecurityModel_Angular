@@ -15,6 +15,9 @@ import { UpdateUserComponent } from './user/update-user/update-user.component';
 import { CreateFormComponent } from './form/create-form/create-form.component';
 import { IndiceFormComponent } from './form/indice-form/indice-form.component';
 import { UpdateFormComponent } from './form/update-form/update-form.component';
+import { CreatePermissionComponent } from './permission/create-permission/create-permission.component';
+import { IndicePermissionComponent } from './permission/indice-permission/indice-permission.component';
+import { UpdatePermissionComponent } from './permission/update-permission/update-permission.component';
 
 
 export const routes: Routes = [
@@ -31,9 +34,9 @@ export const routes: Routes = [
     // {path: 'module/update/:id', component:UpdateModuleComponent},
 
     // Permission
-    // {path: 'permission', component:IndicePermissionComponent},
-    // {path: 'permission/create', component:CreatePermissionComponent},
-    // {path: 'permission/update/:id', component:UpdatePermissionComponent},
+    {path: 'permission', component:IndicePermissionComponent},
+    {path: 'permission/create', component:CreatePermissionComponent},
+    {path: 'permission/update/:id', component:UpdatePermissionComponent},
 
     // Person
     {path: 'person', component:IndicePersonComponent},

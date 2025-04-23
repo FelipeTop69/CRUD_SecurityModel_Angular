@@ -1,0 +1,41 @@
+<h2 style="text-align: center;">Actualizar Permission</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
+    <!-- Nombre -->
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="form.get('name')?.invalid">
+            El nombre es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Descripcion -->
+    <mat-form-field appearance="outline">
+        <mat-label>Descripcion</mat-label>
+        <input matInput formControlName="description" required>
+        <mat-error *ngIf="form.get('description')?.invalid">
+            La descripcion es requerida
+        </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle 
+        *ngIf="showReactivarToggle"
+        color="primary"
+        [checked]="reactivarPermission"
+        (change)="onToggleChange($event)">
+        Reactivar Rol
+    </mat-slide-toggle>
+
+    <!-- Botones -->
+    <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading">
+            <mat-icon>save</mat-icon>
+            Guardar Cambios
+        </button>
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()" [disabled]="isLoading">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>
