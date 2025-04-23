@@ -1,0 +1,56 @@
+<h2>Modules</h2>
+
+
+<button class="btn-register" mat-raised-button color="primary" routerLink="/module/create">
+    <mat-icon>person_add</mat-icon> Registrar Module
+</button>
+
+
+<mat-card>   
+    <mat-table [dataSource]="modules" class="mat-elevation-z8" *ngIf="modules.length">
+
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>N°</mat-header-cell>
+            <mat-cell *matCellDef="let module let i = index">{{ i + 1 }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let module">{{ module.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let module">{{ module.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let module">
+                <span [class.text-success]="module.status" [class.text-danger]="!module.status">
+                    {{ module.status ? 'Activo' : 'Inactivo' }}
+                </span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+            <mat-cell *matCellDef="let module">
+                
+                <a mat-icon-button [routerLink]="['/module/update', module.id]">
+                    <mat-icon>edit</mat-icon>
+                </a>
+                <button mat-icon-button class="btn-delete" (click)="eliminarModule(module)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; let i = index; columns: columnas;"></mat-row>
+    </mat-table>
+
+    <div *ngIf="modules.length === 0" class="text-muted mt-4 text-center">
+        <p><i class="fa fa-hourglass"></i> No hay modules registrados</p>
+    </div>
+</mat-card>
