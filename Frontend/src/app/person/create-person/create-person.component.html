@@ -1,0 +1,106 @@
+<h2 style="text-align: center;">Registrar Persona</h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="formulario">
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Digite el Name">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" placeholder="Digite el Apellido">
+        <mat-error *ngIf="form.get('lastName')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="Digite el Email">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Por favor ingrese un email válido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Document Type -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select formControlName="documentType">
+            <mat-option disabled selected>Seleccione un tipo</mat-option>
+            <mat-option *ngFor="let docType of documentTypes" [value]="docType.value">
+                {{docType.label}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('documentType')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Document Number -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Número de Documento</mat-label>
+        <input matInput formControlName="documentNumber" placeholder="Digite el Número de Documento"
+            maxlength="12">
+        <mat-hint>Solo números, máximo 10 dígitos</mat-hint>
+        <mat-error *ngIf="form.get('documentNumber')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('documentNumber')?.hasError('pattern')">
+            Solo se permiten números
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="phone" placeholder="Digite el Phone" maxlength="10">
+        <mat-hint>Solo números, máximo 10 dígitos</mat-hint>
+        <mat-error *ngIf="form.get('phone')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('phone')?.hasError('pattern')">
+            Solo se permiten números
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address" placeholder="Digite la Dirección">
+        <mat-error *ngIf="form.get('address')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Blood Type -->
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Tipo de Sangre</mat-label>
+        <mat-select formControlName="bloodType">
+            <mat-option disabled selected>Seleccione un tipo</mat-option>
+            <mat-option *ngFor="let bloodType of bloodTypes" [value]="bloodType.value">
+                {{bloodType.label}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('bloodType')?.hasError('required')">
+            Este campo es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <div class="button-group text-center">
+        <button mat-flat-button  type="submit" [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar datos
+        </button>
+        <button mat-stroked-button type="button" (click)="onCancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>

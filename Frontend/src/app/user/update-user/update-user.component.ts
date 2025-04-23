@@ -3,58 +3,114 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-update-user',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatIconModule,
+    NgIf
+  ],
   templateUrl: './update-user.component.html',
-  styleUrl: './update-user.component.css'
+  styleUrls: ['./update-user.component.css']
 })
-export class UpdateUserComponent implements OnInit{
+export class UpdateUserComponent implements OnInit {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   form!: FormGroup;
   userId!: number;
+  isLoading = false;
+  showReactivarToggle = false;
+  reactivarUsuario = false;
 
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
+    this.initializeForm();
+    this.loadUserData();
+  }
+
+  private initializeForm(): void {
     this.form = this.fb.group({
       id: [this.userId],
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      personId: [0], // precargado manual
-      status: ['true', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(4)]],
+      password: [''],
+      personId: [0],
+      status: [true],
     });
+  }
 
-    this.userService.getById(this.userId).subscribe(user => {
-      this.form.patchValue({
-        username: user.username,
-        password: '',
-        personId: user.personId,
-        status: String(user.status),
-      });
+  private loadUserData(): void {
+    this.isLoading = true;
+    this.userService.getById(this.userId).subscribe({
+      next: (user) => {
+        const currentStatus = Boolean(user.status);
+        this.form.patchValue({
+          username: user.username,
+          personId: user.personId,
+          status: currentStatus
+        });
+        
+        // Mostrar toggle solo si el usuario está inactivo
+        this.showReactivarToggle = !currentStatus;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.snackBar.open('Error al cargar datos del usuario', 'Cerrar', {
+          duration: 3000
+        });
+        this.router.navigate(['/user']);
+      }
+    });
+  }
+
+  onToggleChange(event: MatSlideToggleChange): void {
+    this.reactivarUsuario = event.checked;
+    this.form.patchValue({
+      status: event.checked
     });
   }
 
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
+    this.isLoading = true;
     const payload = {
       ...this.form.value,
-      status: this.form.value['status'] === 'true',
+      // No actualizar password si está vacío
+      password: this.form.value.password || undefined
     };
 
     this.userService.update(payload).subscribe({
-      next: () => this.router.navigate(['/user']),
-      error: err => alert('Error al actualizar: ' + err.message),
+      next: () => {
+        this.snackBar.open('Usuario actualizado exitosamente', 'Cerrar', {
+          duration: 3000
+        });
+        this.router.navigate(['/user']);
+      },
+      error: (err) => {
+        this.snackBar.open(`Error al actualizar: ${err.message}`, 'Cerrar', {
+          duration: 3000
+        });
+        this.isLoading = false;
+      }
     });
   }
 

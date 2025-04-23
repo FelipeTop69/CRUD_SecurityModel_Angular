@@ -24,3 +24,8 @@
 .button-group button {
     flex: 1;
 }
+
+button mat-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}

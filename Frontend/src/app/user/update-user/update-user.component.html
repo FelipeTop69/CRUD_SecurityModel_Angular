@@ -1,28 +1,42 @@
 <h2 style="text-align: center;">Actualizar Usuario</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
-    <mat-form-field appearance="outline" class="w-100">
+    <!-- Campo Username -->
+    <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username" />
+        <input matInput formControlName="username" required>
+        <mat-error *ngIf="form.get('username')?.invalid">
+            El nombre de usuario es requerido
+        </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100">
+    <!-- Campo Password -->
+    <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <input matInput type="password" formControlName="password" required>
+        <mat-error *ngIf="form.get('password')?.invalid">
+            La contraseña es requerida
+        </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Estado</mat-label>
-        <mat-select formControlName="status">
-            <mat-option value="true">Activo</mat-option>
-            <mat-option value="false">Inactivo</mat-option>
-        </mat-select>
-    </mat-form-field>
+    <!-- Toggle para Reactivar Usuario (solo visible si status es false) -->
+    <mat-slide-toggle 
+        *ngIf="showReactivarToggle"
+        color="primary"
+        [checked]="reactivarUsuario"
+        (change)="onToggleChange($event)">
+        Reactivar Usuario
+    </mat-slide-toggle>
 
+    <!-- Botones -->
     <div class="button-group">
-        <button mat-flat-button  type="submit">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+            <mat-icon>save</mat-icon>
             Guardar Cambios
         </button>
-        <button mat-raised-button (click)="cancelar()" type="button">Cancelar</button>
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
     </div>
 </form>

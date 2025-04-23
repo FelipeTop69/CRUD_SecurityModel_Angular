@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { PersonService } from '../../services/person.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,33 +9,33 @@ import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-indice-user',
+  selector: 'app-indice-person',
   standalone: true,
   imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, CommonModule, RouterLink],
-  templateUrl: './indice-user.component.html',
-  styleUrl: './indice-user.component.css'
+  templateUrl: './indice-person.component.html',
+  styleUrl: './indice-person.component.css'
 })
-export class IndiceUserComponent implements OnInit {
-  private userService = inject(UserService);
-  usuarios: any[] = [];
-  columnas = ['id', 'username', 'password', 'personName', 'status','acciones'];
+export class IndicePersonComponent implements OnInit {
+  private personService = inject(PersonService);
+  persons: any[] = [];
+  columnas = ['id', 'name', 'lastName', 'email','documentType','documentNumber','phone','address','bloodType','status','acciones'];
 
   ngOnInit(): void {
-    this.cargarUsuarios();
+    this.cargarPersons();
   }
 
 
-  cargarUsuarios(): void {
-    this.userService.getAll().subscribe({
-      next: data => this.usuarios = data,
-      error: err => console.error("Error cargando usuarios", err)
+  cargarPersons(): void {
+    this.personService.getAll().subscribe({
+      next: data => this.persons = data,
+      error: err => console.error("Error cargando persons", err)
     });
   }
 
-  eliminarUsuario(user: any) {
+  eliminarPerson(person: any) {
     Swal.fire({
       title: '¿Qué tipo de eliminación deseas?',
-      text: `Usuario: ${user.username}`,
+      text: `Person: ${person.name}`,
       icon: 'warning',
       showCancelButton: true,
       showDenyButton: true,
@@ -46,14 +46,14 @@ export class IndiceUserComponent implements OnInit {
       denyButtonColor: '#d33',
     }).then(result => {
       if (result.isConfirmed) {
-        this.userService.delete(user.id, 0).subscribe(() => {
+        this.personService.delete(person.id, 0).subscribe(() => {
           Swal.fire('Eliminado lógicamente', '', 'success');
-          this.cargarUsuarios();
+          this.cargarPersons();
         });
       } else if (result.isDenied) {
-        this.userService.delete(user.id, 1).subscribe(() => {
+        this.personService.delete(person.id, 1).subscribe(() => {
           Swal.fire('Eliminado permanentemente', '', 'success');
-          this.cargarUsuarios();
+          this.cargarPersons();
         });
       }
     });

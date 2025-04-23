@@ -1,30 +1,49 @@
 <h2 style="text-align: center;">Registrar Usuario</h2>
 <form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
 
-    <mat-form-field appearance="outline" class="w-100">
+    <!-- Campo Username -->
+    <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
-        <input matInput formControlName="username">
+        <input matInput formControlName="username" required>
+        <mat-error *ngIf="form.get('username')?.invalid">
+            El nombre de usuario es requerido
+        </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100">
+    <!-- Campo Password -->
+    <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password">
+        <input matInput type="password" formControlName="password" required>
+        <mat-error *ngIf="form.get('password')?.invalid">
+            La contraseña es requerida
+        </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100">
+    <!-- Selector de Persona -->
+    <mat-form-field appearance="outline">
         <mat-label>Selecciona una persona</mat-label>
-        <mat-select formControlName="personId">
-          <mat-option *ngFor="let p of persons" [value]="p.id">
-            {{ p.name }}
-        </mat-option>
+        <mat-select formControlName="personId" required>
+            <mat-option *ngFor="let p of persons" [value]="p.id">
+                {{ p.name }}
+            </mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('personId')?.invalid">
+            Debes seleccionar una persona
+        </mat-error>
         <mat-hint *ngIf="noPersonsAvailable" class="text-danger">
             No hay personas disponibles
         </mat-hint>
     </mat-form-field>
 
+    <!-- Botones -->
     <div class="button-group">
-        <button mat-flat-button type="submit" [disabled]="noPersonsAvailable">Registrar</button>
-        <button mat-raised-button (click)="cancelar()" type="button">Cancelar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || noPersonsAvailable">
+            <mat-icon>save</mat-icon>
+            Registrar
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
     </div>
 </form>

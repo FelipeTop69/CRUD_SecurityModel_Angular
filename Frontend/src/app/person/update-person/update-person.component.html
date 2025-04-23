@@ -1,0 +1,107 @@
+<h2 style="text-align: center;">Actualizar Persona</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="formulario">
+    <!-- Nombre -->
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="form.get('name')?.invalid">
+            El nombre es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Apellido -->
+    <mat-form-field appearance="outline">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="lastName" required>
+        <mat-error *ngIf="form.get('lastName')?.invalid">
+            El apellido es requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" required>
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+            El email es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+            Ingrese un email válido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Tipo de Documento -->
+    <mat-form-field appearance="outline">
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select formControlName="documentType" required>
+            <mat-option *ngFor="let docType of documentTypes" [value]="docType.value">
+                {{docType.label}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('documentType')?.invalid">
+            Seleccione un tipo de documento
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Número de Documento -->
+    <mat-form-field appearance="outline">
+        <mat-label>Número de Documento</mat-label>
+        <input matInput formControlName="documentNumber" required>
+        <mat-error *ngIf="form.get('documentNumber')?.invalid">
+            Número de documento requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Teléfono -->
+    <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" required>
+        <mat-error *ngIf="form.get('phone')?.invalid">
+            Teléfono requerido
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Dirección -->
+    <mat-form-field appearance="outline">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="address" required>
+        <mat-error *ngIf="form.get('address')?.invalid">
+            Dirección requerida
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Tipo de Sangre -->
+    <mat-form-field appearance="outline">
+        <mat-label>Tipo de Sangre</mat-label>
+        <mat-select formControlName="bloodType" required>
+            <mat-option *ngFor="let bloodType of bloodTypes" [value]="bloodType.value">
+                {{bloodType.label}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('bloodType')?.invalid">
+            Seleccione un tipo de sangre
+        </mat-error>
+    </mat-form-field>
+
+    <!-- Toggle para Reactivar Usuario (solo visible si status es false) -->
+    <mat-slide-toggle 
+        *ngIf="showReactivarToggle"
+        color="primary"
+        [checked]="reactivarPerson"
+        (change)="onToggleChange($event)">
+        Reactivar Person
+    </mat-slide-toggle>
+
+    <!-- Botones -->
+    <div class="button-group">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading">
+            <mat-icon>save</mat-icon>
+            Guardar Cambios
+        </button>
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()" [disabled]="isLoading">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+        </button>
+    </div>
+</form>

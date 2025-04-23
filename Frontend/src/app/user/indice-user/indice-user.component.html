@@ -29,6 +29,15 @@
             <mat-cell *matCellDef="let user">{{ user.personName }}</mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+                <span [class.text-success]="user.status" [class.text-danger]="!user.status">
+                    {{ user.status ? 'Activo' : 'Inactivo' }}
+                </span>
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="acciones">
             <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
             <mat-cell *matCellDef="let user">
