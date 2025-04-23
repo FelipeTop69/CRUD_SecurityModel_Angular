@@ -1,6 +1,12 @@
 <h2>Users</h2>
 
-<mat-card>
+
+<button class="btn-register" mat-raised-button color="primary" routerLink="/user/create">
+    <mat-icon>person_add</mat-icon> Registrar User
+</button>
+
+
+<mat-card>   
     <mat-table [dataSource]="usuarios" class="mat-elevation-z8" *ngIf="usuarios.length">
 
         <ng-container matColumnDef="id">
@@ -27,10 +33,10 @@
             <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
             <mat-cell *matCellDef="let user">
                 
-                <a mat-icon-button  (click)="editar(user.id)">
+                <a mat-icon-button [routerLink]="['/user/update', user.id]">
                     <mat-icon>edit</mat-icon>
                 </a>
-                <button mat-icon-button class="btn-delete" (click)="eliminar(user.id)">
+                <button mat-icon-button class="btn-delete" (click)="eliminarUsuario(user)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-cell>
