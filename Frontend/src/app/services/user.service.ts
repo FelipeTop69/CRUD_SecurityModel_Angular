@@ -14,6 +14,10 @@ export class UserService {
     return this.http.get<any[]>(`${this.baseUrl}GetAll/`);
   }
 
+  getAllJWT(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}GetAllJWT/`);
+  }
+
   getById(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}GetByiId/${id}/`);
   }

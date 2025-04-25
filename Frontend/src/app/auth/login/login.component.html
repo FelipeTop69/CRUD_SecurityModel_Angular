@@ -1,0 +1,25 @@
+<div class="contenedor-formulario">
+    <h1>Iniciar Sesión </h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="formulario">
+        <mat-form-field appearance="outline">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="username" required>
+            <mat-error *ngIf="loginForm.get('username')?.invalid">
+                Usuario requerido
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-error *ngIf="loginForm.get('password')?.invalid">
+                Contraseña requerida
+            </mat-error>
+        </mat-form-field>
+    
+        <button mat-raised-button color="primary" type="submit">
+            Iniciar Sesión
+        </button>
+    </form>
+</div>
+

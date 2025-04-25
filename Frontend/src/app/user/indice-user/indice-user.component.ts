@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-indice-user',
@@ -17,16 +18,19 @@ import Swal from 'sweetalert2';
 })
 export class IndiceUserComponent implements OnInit {
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   usuarios: any[] = [];
   columnas = ['id', 'username', 'password', 'personName', 'status','acciones'];
+  isAdmin = false;
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.getUserRole() === 'Administrador';
     this.cargarUsuarios();
   }
 
 
   cargarUsuarios(): void {
-    this.userService.getAll().subscribe({
+    this.userService.getAllJWT().subscribe({
       next: data => this.usuarios = data,
       error: err => console.error("Error cargando usuarios", err)
     });
