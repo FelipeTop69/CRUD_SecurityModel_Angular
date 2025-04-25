@@ -11,15 +11,24 @@
     
         <mat-form-field appearance="outline">
             <mat-label>Contraseña</mat-label>
-            <input matInput type="password" formControlName="password" required>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+            <button mat-icon-button matSuffix  (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Mostrar contraseña'" type="button">
+            <mat-icon>
+                {{hidePassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+        </button>
             <mat-error *ngIf="loginForm.get('password')?.invalid">
                 Contraseña requerida
             </mat-error>
         </mat-form-field>
     
-        <button mat-raised-button color="primary" type="submit">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
             Iniciar Sesión
         </button>
+        <div class="register-link" style="text-align: center;">
+            ¿No tienes cuenta? <a routerLink="/register">Regístrate</a>
+        </div>
     </form>
 </div>
 

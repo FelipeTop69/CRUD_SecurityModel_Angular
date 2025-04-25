@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { MenuComponent } from "./menu/menu.component";
 import { NgIf } from '@angular/common';
 import { VerificarSesionService } from './services/verificar-sesion.service';
 import { AuthService } from './services/auth.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,13 +19,18 @@ export class AppComponent implements OnInit {
   private verificarSesion = inject(VerificarSesionService)
 
   ngOnInit(): void {
-    const esRutaPublica = ['/login', '/register'].includes(this.router.url);
-  
-    if (!esRutaPublica && this.authService.esValidoFrontend()) {
-      this.verificarSesion.iniciarVerificacion();
-      this.authService.iniciarExtensionSesionPorActividad(); 
-    }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const esRutaPublica = ['/login', '/register'].includes(this.router.url);
+
+      if (!esRutaPublica && this.authService.esValidoFrontend()) {
+        this.verificarSesion.iniciarVerificacion();
+        this.authService.iniciarExtensionSesionPorActividad();
+      }
+    });
   }
+
   get mostrarMenu(): boolean {
     const rutasOcultas = ['/login', '/register'];
     return !rutasOcultas.some(r => this.router.url.startsWith(r));

@@ -28,7 +28,7 @@ export class VerificarSesionService {
           (new Date(exp).getTime() - Date.now()) / 1000
         );
   
-        console.log(`[DEBUG] Token expira en: ${segundosRestantes} segundos`);
+        // console.log(`Token expira en: ${segundosRestantes} segundos`);
   
         if (segundosRestantes <= 0) {
           this.detenerVerificacion();
@@ -36,7 +36,7 @@ export class VerificarSesionService {
           Swal.fire({
             icon: 'warning',
             title: 'Sesión expirada',
-            text: 'Tu sesión ha expirado. Por favor inicia sesión nuevamente.',
+            text: 'Tu sesion ha expirado. Inicia sesion nuevamente.',
           }).then(() => {
             this.router.navigate(['/login']);
           });

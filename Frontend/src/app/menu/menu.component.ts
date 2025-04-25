@@ -4,6 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,20 @@ import { AuthService } from '../services/auth.service';
 export class MenuComponent {
   private authService = inject(AuthService);
 
+  rolName = this.authService.getUserRole()
+
   logout(){
-    this.authService.logout()
+    Swal.fire({
+          title: '¿Deseas Cerrar Sesion?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Cerrar',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#d33',
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.authService.logout()
+          } 
+        });
   }
 }

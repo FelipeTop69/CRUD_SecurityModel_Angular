@@ -8,6 +8,11 @@
     /* Centrado horizontal */
 }
 
+.mat-icon-view {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 1em !important;
+}
+
 .button-group {
     display: flex;
     gap: 1rem;

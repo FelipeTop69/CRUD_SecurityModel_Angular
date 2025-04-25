@@ -34,7 +34,7 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}Login`, credentials).pipe(
       tap(response => {
         if (response.token) {
-          const expiration = new Date(Date.now() + 1 * 60 * 1000); 
+          const expiration = new Date(Date.now() + 2 * 60 * 1000); 
 
           localStorage.setItem('currentUser', JSON.stringify(response));
           localStorage.setItem(this.FRONT_EXP_KEY, expiration.toISOString());
@@ -47,17 +47,43 @@ export class AuthService {
     );
   }
 
+  register(userData: {
+    username: string;
+    password: string;
+    name: string;
+    lastName: string;
+    email: string;
+    documentNumber: string;
+    phone: string;
+    address: string;
+    documentType: string;
+    bloodType: string;
+    rolId: number;
+  }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}Register`, userData).pipe(
+      tap(response => {
+        this.snackBar.open('Registro exitoso. Por favor inicie sesión.', 'Cerrar', { duration: 3000 });
+        this.router.navigate(['/login']);
+      })
+    );
+  }
+
   iniciarExtensionSesionPorActividad(): void {
     const eventos = ['click', 'keydown'];
   
     eventos.forEach(evento => {
       document.addEventListener(evento, () => {
-        this.extenderSesion();
-        console.log('Sesion Extendida');
+        const ruta = this.router.url;
+        const esRutaPublica = ['/login', '/register'].includes(ruta);
+        
+        if (!esRutaPublica && this.esValidoFrontend()) {
+          this.extenderSesion();
+          // console.log('[Sesion Extendida ');
+        }
       });
     });
   }
-
+  
   esValidoFrontend(): boolean {
     const exp = localStorage.getItem(this.FRONT_EXP_KEY);
     return exp ? new Date(exp) > new Date() : false;
@@ -73,7 +99,7 @@ export class AuthService {
     localStorage.removeItem(this.FRONT_EXP_KEY);
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
-    this.snackBar.open('Sesión cerrada', 'Cerrar', { duration: 3000 });
+    // this.snackBar.open('Sesión cerrada', 'Cerrar', { duration: 3000 });
   }
 
   isAuthenticated(): boolean {
@@ -90,13 +116,19 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return '';
     const decoded = this.jwtHelper.decodeToken(token);
-    return decoded.role || '';
+  
+    const roleKey = Object.keys(decoded).find(key =>
+      key.includes('role') || key.toLowerCase().includes('claimtypes.role')
+    );
+  
+    return roleKey ? decoded[roleKey] : '';
   }
+  
 
   getUserId(): number {
     const token = this.getToken();
     if (!token) return 0;
     const decoded = this.jwtHelper.decodeToken(token);
-    return decoded.nameid || 0;
+    return decoded.UserId || 0;
   }
 }

@@ -39,11 +39,13 @@ import { UpdateFormModuleComponent } from './formModule/update-form-module/updat
 import { CreateRolUserComponent } from './rolUser/create-rol-user/create-rol-user.component';
 import { IndiceRolUserComponent } from './rolUser/indice-rol-user/indice-rol-user.component';
 import { UpdateRolUserComponent } from './rolUser/update-rol-user/update-rol-user.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 
 export const routes: Routes = [
     {path: '', component:LandingComponent},
     {path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
 
     // Form
     {path: 'form', component:IndiceFormComponent},
@@ -72,7 +74,6 @@ export const routes: Routes = [
 
     // User
     { path: 'user', component: IndiceUserComponent, canActivate: [AuthGuard] },
-    // { path: 'user/create', component: FormUserComponent,canActivate: [AuthGuard, RoleGuard],data: { role: 'Administrador' } },
     { path: 'user/create', component: FormUserComponent,canActivate: [AuthGuard] },
     { path: 'user/update/:id', component: UpdateUserComponent,canActivate: [AuthGuard] },
 

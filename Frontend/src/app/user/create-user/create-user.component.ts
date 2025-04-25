@@ -10,6 +10,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { PersonService } from '../../services/person.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../services/auth.service';
+import { CustomValidators } from '../../utils/validators';
 
 @Component({
   selector: 'app-form-user',
@@ -22,7 +24,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatIconModule,
     NgFor,
-    NgIf
+    NgIf,
+    MatIconModule
   ],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
@@ -31,20 +34,29 @@ export class FormUserComponent implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
+  private authService = inject(AuthService);
+
   private personService = inject(PersonService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
-
+  
+  isAdmin = false;
   persons: any[] = [];
   noPersonsAvailable = false;
+  hidePassword = true;
 
   form = this.formBuilder.group({
     username: ['', Validators.required],
-    password: ['', Validators.required],
+    password: ['', [
+      Validators.required,
+      Validators.minLength(8),
+      CustomValidators.strongPassword()
+    ]],
     personId: [null, Validators.required]
   });
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.getUserRole() === 'Administrador';
     this.loadPersons();
   }
 

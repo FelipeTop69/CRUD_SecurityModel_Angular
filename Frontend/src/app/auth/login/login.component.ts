@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,10 @@ import { NgIf } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    NgIf
+    NgIf,
+    RouterLink,
+    MatIconModule
+
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -27,6 +32,9 @@ export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar)
+
+  hidePassword = true;
+
 
   loginForm = this.formBuilder.group({
     username: ['', Validators.required],

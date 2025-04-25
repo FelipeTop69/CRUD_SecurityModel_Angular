@@ -9,6 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIf } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { CustomValidators } from '../../utils/validators';
+
 
 @Component({
   selector: 'app-update-user',
@@ -20,7 +23,8 @@ import { UserService } from '../../services/user.service';
     MatSlideToggleModule,
     MatButtonModule,
     MatIconModule,
-    NgIf
+    NgIf,
+    MatIconModule
   ],
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.css']
@@ -28,6 +32,7 @@ import { UserService } from '../../services/user.service';
 export class UpdateUserComponent implements OnInit {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
@@ -37,6 +42,7 @@ export class UpdateUserComponent implements OnInit {
   isLoading = false;
   showReactivarToggle = false;
   reactivarUsuario = false;
+  hidePassword = true;
 
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
@@ -48,7 +54,11 @@ export class UpdateUserComponent implements OnInit {
     this.form = this.fb.group({
       id: [this.userId],
       username: ['', [Validators.required, Validators.minLength(4)]],
-      password: [''],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        CustomValidators.strongPassword()
+      ]],
       personId: [0],
       status: [true],
     });
@@ -59,6 +69,7 @@ export class UpdateUserComponent implements OnInit {
     this.userService.getById(this.userId).subscribe({
       next: (user) => {
         const currentStatus = Boolean(user.status);
+        const isAdmin = this.authService.getUserRole() === "Administrador";
         this.form.patchValue({
           username: user.username,
           personId: user.personId,
@@ -66,8 +77,9 @@ export class UpdateUserComponent implements OnInit {
         });
         
         // Mostrar toggle solo si el usuario está inactivo
-        this.showReactivarToggle = !currentStatus;
+        this.showReactivarToggle = !currentStatus && isAdmin;
         this.isLoading = false;
+        // console.log(isAdmin)
       },
       error: (err) => {
         this.snackBar.open('Error al cargar datos del usuario', 'Cerrar', {
@@ -94,7 +106,6 @@ export class UpdateUserComponent implements OnInit {
     this.isLoading = true;
     const payload = {
       ...this.form.value,
-      // No actualizar password si está vacío
       password: this.form.value.password || undefined
     };
 

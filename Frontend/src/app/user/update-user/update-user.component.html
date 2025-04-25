@@ -11,11 +11,24 @@
     </mat-form-field>
 
     <!-- Campo Password -->
+    <!-- Campo Password -->
     <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" required>
-        <mat-error *ngIf="form.get('password')?.invalid">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix  (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Mostrar contraseña'" type="button">
+            <mat-icon class="mat-icon-view">
+                {{hidePassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
             La contraseña es requerida
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+            Mínimo 8 caracteres
+        </mat-error>
+        <mat-error *ngIf="form.get('password')?.hasError('strongPassword')">
+            La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales
         </mat-error>
     </mat-form-field>
 
