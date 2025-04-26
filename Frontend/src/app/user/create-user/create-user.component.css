@@ -8,6 +8,12 @@
     /* Centrado horizontal */
 }
 
+.mat-error-password{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
 .mat-icon-view {
     color: rgba(0, 0, 0, 0.54);
     font-size: 1em !important;

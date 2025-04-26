@@ -16,6 +16,10 @@ export class FormService {
     return this.http.get<any[]>(`${this.baseUrl}GetAll/`);
   }
 
+  getAllJwt(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}GetAllJWT/`);
+  }
+
   getById(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}GetById/${id}/`);
   }

@@ -24,6 +24,12 @@
     flex: 1;
 }
 
+.mat-error-campos{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
 
 .mat-icon {
     color: rgba(0, 0, 0, 0.54);

@@ -24,7 +24,6 @@ export class IndicePersonComponent implements OnInit {
     this.cargarPersons();
   }
 
-
   cargarPersons(): void {
     this.personService.getAll().subscribe({
       next: data => this.persons = data,

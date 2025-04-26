@@ -9,7 +9,7 @@ namespace Data
     ///<summary>
     ///Repositorio encargador de la gestion de la entidad Form en la base de datos
     ///</summary>
-    public class FormData : IData<Form>
+    public class FormData : JwtBaseData<Form>, IData<Form>
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<FormData> _logger;
@@ -19,6 +19,7 @@ namespace Data
         ///</summary>
         ///<param name="context">Instancia de <see cref="ApplicationDbContext"/> Para la conexion con la base de datos.</param> 
         public FormData(ApplicationDbContext context, ILogger<FormData> logger)
+            :base(context, logger)
         {
             _context = context;
             _logger = logger;

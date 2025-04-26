@@ -1,10 +1,8 @@
 <h2>Users</h2>
 
-
 <button class="btn-register" mat-raised-button color="primary" routerLink="/user/create">
     <mat-icon>person_add</mat-icon> Registrar User
 </button>
-
 
 <mat-card>   
     <mat-table [dataSource]="usuarios" class="mat-elevation-z8" *ngIf="usuarios.length">

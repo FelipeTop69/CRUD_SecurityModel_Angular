@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ClockSkew = TimeSpan.Zero, // quita los 5 min de tolerancia
+        ClockSkew = TimeSpan.Zero, 
 
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
@@ -97,6 +97,12 @@ builder.Services.AddScoped(provider =>
 builder.Services.AddScoped(typeof(LogicalDeleteStrategy<>));
 builder.Services.AddScoped(typeof(PermanentDeleteStrategy<>));
 builder.Services.AddScoped(typeof(IDeleteStrategyResolver<>), typeof(DeleteContext<>));
+
+/// Definicion de Servicios JWT
+builder.Services.AddScoped<IBusiness<FormDTO, FormDTO>, FormBusiness>();
+builder.Services.AddScoped<IJwtData<Form>, FormData>();
+builder.Services.AddScoped<FormBusiness>();
+
 
 /// Definicion de Servicios 
 builder.Services.AddScoped<IBusiness<FormDTO, FormDTO>, FormBusiness>();

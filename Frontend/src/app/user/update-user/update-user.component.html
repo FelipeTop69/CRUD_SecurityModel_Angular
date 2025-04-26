@@ -5,14 +5,16 @@
     <mat-form-field appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username" required>
-        <mat-error *ngIf="form.get('username')?.invalid">
+        <mat-error *ngIf="form.get('username')?.hasError('required')">
             El nombre de usuario es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+            El nombre de usuario debe tener al menos 3 caracteres
         </mat-error>
     </mat-form-field>
 
     <!-- Campo Password -->
-    <!-- Campo Password -->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" style="display: block; margin-bottom: 0.5rem;">
         <mat-label>Contraseña</mat-label>
         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
         <button mat-icon-button matSuffix  (click)="hidePassword = !hidePassword"
@@ -27,8 +29,10 @@
         <mat-error *ngIf="form.get('password')?.hasError('minlength')">
             Mínimo 8 caracteres
         </mat-error>
-        <mat-error *ngIf="form.get('password')?.hasError('strongPassword')">
-            La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales
+        <mat-error class="mat-error-password" *ngIf="form.get('password')?.hasError('strongPassword')">
+            <span matTooltip="La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales" matTooltipPosition="above">
+                La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales
+            </span>        
         </mat-error>
     </mat-form-field>
 

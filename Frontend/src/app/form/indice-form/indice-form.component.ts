@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormService } from '../../services/form.service';
+import { AuthService } from '../../services/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,16 +17,20 @@ import Swal from 'sweetalert2';
 })
 export class IndiceFormComponent implements OnInit {
   private formService = inject(FormService);
+  private authService = inject(AuthService);
+  
     forms: any[] = [];
     columnas = ['id', 'name', 'description', 'status','acciones'];
+    isAdmin = false;
   
     ngOnInit(): void {
+      this.isAdmin = this.authService.getUserRole() === 'Administrador';
       this.cargarForms();
     }
   
   
   cargarForms(): void {
-    this.formService.getAll().subscribe({
+    this.formService.getAllJwt().subscribe({
       next: data => this.forms = data,
       error: err => console.error("Error cargando forms", err)
     });

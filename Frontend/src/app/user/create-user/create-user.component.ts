@@ -10,23 +10,14 @@ import { NgFor, NgIf } from '@angular/common';
 import { PersonService } from '../../services/person.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../services/auth.service';
 import { CustomValidators } from '../../utils/validators';
 
 @Component({
   selector: 'app-form-user',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    NgFor,
-    NgIf,
-    MatIconModule
-  ],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule, NgFor, NgIf, MatIconModule, MatTooltipModule],
   templateUrl: './create-user.component.html',
   styleUrl: './create-user.component.css'
 })
@@ -46,12 +37,8 @@ export class FormUserComponent implements OnInit {
   hidePassword = true;
 
   form = this.formBuilder.group({
-    username: ['', Validators.required],
-    password: ['', [
-      Validators.required,
-      Validators.minLength(8),
-      CustomValidators.strongPassword()
-    ]],
+    username: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [ Validators.required, Validators.minLength(8), CustomValidators.strongPassword()]],
     personId: [null, Validators.required]
   });
 
@@ -101,5 +88,4 @@ export class FormUserComponent implements OnInit {
   cancelar(): void {
     this.router.navigate(['/user']);
   }
-
 }

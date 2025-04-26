@@ -15,17 +15,7 @@ import { PersonService } from '../../services/person.service';
 @Component({
   selector: 'app-update-person',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatIconModule,
-    NgIf,
-    NgFor
-  ],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSlideToggleModule, MatButtonModule, MatIconModule, NgIf, NgFor],
   templateUrl: './update-person.component.html',
   styleUrls: ['./update-person.component.css']
 })
@@ -71,12 +61,12 @@ export class UpdatePersonComponent implements OnInit {
   private initializeForm(): void {
     this.form = this.fb.group({
       id: [this.personId],
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [ Validators.required,  Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       documentType: ['', Validators.required],
-      documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{6,10}$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address: ['', Validators.required],
       bloodType: ['', Validators.required],
       status: [true],

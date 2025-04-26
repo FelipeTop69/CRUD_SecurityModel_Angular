@@ -28,7 +28,6 @@ export class IndiceUserComponent implements OnInit {
     this.cargarUsuarios();
   }
 
-
   cargarUsuarios(): void {
     this.userService.getAllJWT().subscribe({
       next: data => this.usuarios = data,

@@ -1,6 +1,11 @@
-﻿using Business.Interfaces;
+﻿using System.Security.Claims;
+using Business;
+using Business.Interfaces;
+using Data;
 using Entity.DTOs;
+using Entity.DTOs.UserDTOs;
 using Entity.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Utilities.Exceptions;
 
@@ -16,6 +21,7 @@ namespace Web.Controllers
     public class FormController : ControllerBase
     {
         private readonly IBusiness<FormDTO, FormDTO> _formBusiness;
+        private readonly FormBusiness _formBusinessJwt;
         private readonly ILogger<FormController> _logger;
 
         /// <summary>
@@ -23,9 +29,10 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="FormBusiness">Capa de negocio de Form</param>
         /// <param name="logger">Logger para registro de Form</param>
-        public FormController(IBusiness<FormDTO, FormDTO> formBusiness, ILogger<FormController> logger)
+        public FormController(IBusiness<FormDTO, FormDTO> formBusiness, FormBusiness formBusinessJwt, ILogger<FormController> logger)
         {
             _formBusiness = formBusiness;
+            _formBusinessJwt = formBusinessJwt;
             _logger = logger;
         }
 
@@ -48,7 +55,33 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error al obtener los Forms");
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
 
+        /// <summary>
+        /// Obtiene todos los Forms del sistema JWT
+        /// </summary>
+        /// <returns>Lista de Useres</returns>
+        /// <response code="200">Retorna la lista de Users</response>
+        /// <response code="500">Error interno del servidor</response>
+        [HttpGet("GetAllJWT/")]
+        [Authorize]
+        [ProducesResponseType(typeof(IEnumerable<FormDTO>), 200)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetAllUsersJWT()
+        {
+            try
+            {
+                var userRol = User.FindFirst(ClaimTypes.Role)?.Value;
+                _logger.LogInformation("ROL DEL USUARIO JWT: {Rol}", userRol); // <- Agregalo aquí
+                var includeInactive = userRol == "Administrador"; // Solo admins pueden ver inactivos
+                var Forms = await _formBusinessJwt.GetAllJwtAsync(includeInactive);
+                return Ok(Forms);
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "Error al obtener los Forms");
                 return StatusCode(500, new { message = ex.Message });
             }

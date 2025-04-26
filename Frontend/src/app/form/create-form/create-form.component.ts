@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-form',
@@ -47,8 +48,12 @@ export class CreateFormComponent {
         this.router.navigate(['/form']);
       },
       error: (err) => {
-        this.snackBar.open(`Error al registrar: ${err.message}`, 'Cerrar', {
-          duration: 3000
+        const mensaje = err.error?.message || 'Error al registrar';
+        Swal.fire({
+          icon: 'error',
+          title: 'Validación fallida',
+          text: mensaje,
+          confirmButtonText: 'Cerrar'
         });
       }
     });

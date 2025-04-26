@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, EmailValidator } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersonService } from '../../services/person.service';
 import { CommonModule } from '@angular/common';
@@ -24,23 +24,6 @@ export class CreatePersonComponent {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
 
-  form: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    documentType: ['', Validators.required],
-    documentNumber: ['', [
-      Validators.required,
-      Validators.pattern(/^[0-9]{1,10}$/)
-    ]],
-    phone: ['', [
-      Validators.required,
-      Validators.pattern(/^[0-9]{1,10}$/)
-    ]],
-    address: ['', Validators.required],
-    bloodType: ['', Validators.required]
-  });
-
   documentTypes = [
     { value: 'RC', label: 'Registro Civil' },
     { value: 'TI', label: 'Tarjeta de Identidad' },
@@ -61,6 +44,17 @@ export class CreatePersonComponent {
     { value: 'O-', label: 'O-' }
   ];
 
+  form: FormGroup = this.fb.group({
+    name: ['', [ Validators.required, Validators.minLength(3) ]],
+    lastName: ['', [ Validators.required,Validators.minLength(3) ]],
+    email: ['', [Validators.required, Validators.email]],
+    documentType: ['', Validators.required],
+    documentNumber: ['', [ Validators.required, Validators.pattern(/^[0-9]{6,10}$/) ]],
+    phone: ['', [ Validators.required, Validators.pattern(/^[0-9]{10}$/) ]],
+    address: ['', Validators.required],
+    bloodType: ['', Validators.required]
+  });
+
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -70,8 +64,14 @@ export class CreatePersonComponent {
       return;
     }
 
+    const cleanForm = {
+      ...this.form.value,
+      email: this.form.value.email.trim().toLowerCase()
+    }
 
-    this.personService.create(this.form.value).subscribe({
+    console.log(cleanForm)
+
+    this.personService.create(cleanForm).subscribe({
       next: () => {
         this.snackBar.open('Persona registrada exitosamente', 'Cerrar', {
           duration: 3000

@@ -16,12 +16,15 @@ import Swal from 'sweetalert2';
 export class MenuComponent {
   private authService = inject(AuthService);
 
-  rolName = this.authService.getUserRole()
+  userName = this.authService.getUserName()
 
+  
   logout(){
+    console.log(this.userName)
     Swal.fire({
           title: '¿Deseas Cerrar Sesion?',
           icon: 'warning',
+          text: `Username: ${this.userName}`,
           showCancelButton: true,
           confirmButtonText: 'Cerrar',
           cancelButtonText: 'Cancelar',

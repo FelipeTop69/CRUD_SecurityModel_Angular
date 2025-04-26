@@ -7,6 +7,9 @@
         <mat-error *ngIf="form.get('name')?.hasError('required')">
             Este campo es requerido
         </mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+            El nombre debe tener al menos 3 caracteres
+        </mat-error>
     </mat-form-field>
 
     <!-- Last Name -->
@@ -15,6 +18,9 @@
         <input matInput formControlName="lastName" placeholder="Digite el Apellido">
         <mat-error *ngIf="form.get('lastName')?.hasError('required')">
             Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('lastName')?.hasError('minlength')">
+            El appellido debe tener al menos 3 caracteres
         </mat-error>
     </mat-form-field>
 
@@ -48,26 +54,24 @@
     <mat-form-field appearance="outline" class="w-100">
         <mat-label>Número de Documento</mat-label>
         <input matInput formControlName="documentNumber" placeholder="Digite el Número de Documento"
-            maxlength="12">
-        <mat-hint>Solo números, máximo 10 dígitos</mat-hint>
+            minlength="6" maxlength="10">
         <mat-error *ngIf="form.get('documentNumber')?.hasError('required')">
             Este campo es requerido
         </mat-error>
         <mat-error *ngIf="form.get('documentNumber')?.hasError('pattern')">
-            Solo se permiten números
+            Solo se permiten números. Minimo 6, Maximo 10 digitos
         </mat-error>
     </mat-form-field>
 
     <!-- Phone -->
     <mat-form-field appearance="outline" class="w-100">
         <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" placeholder="Digite el Phone" maxlength="10">
-        <mat-hint>Solo números, máximo 10 dígitos</mat-hint>
+        <input matInput formControlName="phone" placeholder="Digite el Phone" minlength="10" maxlength="10">
         <mat-error *ngIf="form.get('phone')?.hasError('required')">
             Este campo es requerido
         </mat-error>
         <mat-error *ngIf="form.get('phone')?.hasError('pattern')">
-            Solo se permiten números
+            Solo se permiten números. 10 digitos
         </mat-error>
     </mat-form-field>
 
@@ -94,6 +98,7 @@
         </mat-error>
     </mat-form-field>
 
+    <!-- Botones -->
     <div class="button-group text-center">
         <button mat-flat-button  type="submit" [disabled]="form.invalid">
             <mat-icon>save</mat-icon>

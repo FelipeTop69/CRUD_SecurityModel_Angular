@@ -5,8 +5,11 @@
     <mat-form-field appearance="outline">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="name" required>
-        <mat-error *ngIf="form.get('name')?.invalid">
+        <mat-error *ngIf="form.get('name')?.hasError('required')">
             El nombre es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('minlength')">
+            El nombre debe tener al menos 3 caracteres
         </mat-error>
     </mat-form-field>
 
@@ -16,6 +19,9 @@
         <input matInput formControlName="lastName" required>
         <mat-error *ngIf="form.get('lastName')?.invalid">
             El apellido es requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('lastName')?.hasError('minlength')">
+            El apellido debe tener al menos 3 caracteres
         </mat-error>
     </mat-form-field>
 
@@ -47,18 +53,24 @@
     <!-- Número de Documento -->
     <mat-form-field appearance="outline">
         <mat-label>Número de Documento</mat-label>
-        <input matInput formControlName="documentNumber" required>
-        <mat-error *ngIf="form.get('documentNumber')?.invalid">
+        <input matInput formControlName="documentNumber" minlength="6" maxlength="10" required>
+        <mat-error *ngIf="form.get('documentNumber')?.hasError('required')">
             Número de documento requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('documentNumber')?.hasError('pattern')">
+            Solo se permiten números. Minimo 6, Maximo 10 digitos
         </mat-error>
     </mat-form-field>
 
     <!-- Teléfono -->
     <mat-form-field appearance="outline">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="phone" required>
-        <mat-error *ngIf="form.get('phone')?.invalid">
+        <input matInput formControlName="phone" required minlength="10" maxlength="10">
+        <mat-error *ngIf="form.get('phone')?.hasError('required')">
             Teléfono requerido
+        </mat-error>
+        <mat-error *ngIf="form.get('phone')?.hasError('pattern')">
+            Solo se permiten números. 10 Digitos
         </mat-error>
     </mat-form-field>
 

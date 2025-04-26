@@ -13,17 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    NgIf,
-    RouterLink,
-    MatIconModule
-
-  ],
+  imports: [ ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, NgIf, RouterLink, MatIconModule ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -35,12 +25,10 @@ export class LoginComponent {
 
   hidePassword = true;
 
-
   loginForm = this.formBuilder.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
   });
-
 
   onSubmit(): void {
     if (this.loginForm.invalid) {

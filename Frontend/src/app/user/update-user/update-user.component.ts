@@ -11,21 +11,13 @@ import { NgIf } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { CustomValidators } from '../../utils/validators';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
   selector: 'app-update-user',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatIconModule,
-    NgIf,
-    MatIconModule
-  ],
+  imports: [ ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatButtonModule, MatIconModule, NgIf, MatIconModule, MatTooltipModule ],
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.css']
 })
@@ -53,12 +45,8 @@ export class UpdateUserComponent implements OnInit {
   private initializeForm(): void {
     this.form = this.fb.group({
       id: [this.userId],
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        CustomValidators.strongPassword()
-      ]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(8),CustomValidators.strongPassword()]],
       personId: [0],
       status: [true],
     });

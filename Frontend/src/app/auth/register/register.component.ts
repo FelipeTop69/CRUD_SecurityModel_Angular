@@ -12,22 +12,12 @@ import { RolService } from '../../services/rol.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CustomValidators } from '../../utils/validators';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    NgIf,
-    NgFor,
-    RouterLink,
-    MatIconModule
-  ],
+  imports: [ ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, NgIf, NgFor, RouterLink, MatIconModule, MatTooltipModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -40,45 +30,20 @@ export class RegisterComponent implements OnInit {
   private router = inject(Router)
 
   hidePassword = true;
+  isSubmit = false;
   roles: any[] = [];
   
 
 
   registerForm = this.formBuilder.group({
-    username: ['', [
-      Validators.required,
-      Validators.minLength(4),
-      Validators.maxLength(20)
-    ]],
-    password: ['', [
-      Validators.required,
-      Validators.minLength(8),
-      CustomValidators.strongPassword()
-    ]],
-    name: ['', [
-      Validators.required,
-      Validators.maxLength(50)
-    ]],
-    lastName: ['', [
-      Validators.required,
-      Validators.maxLength(50)
-    ]],
-    email: ['', [
-      Validators.required,
-      Validators.email
-    ]],
-    documentNumber: ['', [
-      Validators.required,
-      CustomValidators.onlyNumbers(10)
-    ]],
-    phone: ['', [
-      Validators.required,
-      CustomValidators.onlyNumbers(10)
-    ]],
-    address: ['', [
-      Validators.required,
-      Validators.maxLength(100)
-    ]],
+    username: ['', [ Validators.required, Validators.minLength(3),]],
+    password: ['', [ Validators.required, Validators.minLength(8), CustomValidators.strongPassword()]],
+    name: ['', [ Validators.required, Validators.minLength(3),]],
+    lastName: ['', [ Validators.required, Validators.minLength(3),]],
+    email: ['', [Validators.required, Validators.email]],
+    documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{6,10}$/)]],
+    phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+    address: ['', Validators.required],
     documentType: ['', Validators.required],
     bloodType: ['', Validators.required],
     rolId: [null, Validators.required]
@@ -114,10 +79,12 @@ export class RegisterComponent implements OnInit {
   
 
   onSubmit(): void {
-    if (this.registerForm.invalid) {
+    if (this.registerForm.invalid || this.isSubmit) {
       this.registerForm.markAllAsTouched();
       return;
     }
+
+    this.isSubmit = true;
 
     // Extraemos los valores del formulario
     const {
@@ -137,7 +104,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register({
       username: username!,
       password: password!,
-      name: name!,
+      name: this.registerForm.value.email!.trim().toLowerCase(),
       lastName: lastName!,
       email: email!,
       documentNumber: documentNumber!,
@@ -155,7 +122,10 @@ export class RegisterComponent implements OnInit {
         this.snackBar.open('Error en el registro: ' + (err.error?.message || err.message), 'Cerrar', { 
           duration: 3000 
         });
-      }
+      },
+      complete: () => { 
+        this.isSubmit = false;
+      },
     });
   }
 }

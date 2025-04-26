@@ -90,7 +90,7 @@ export class AuthService {
   }
 
   extenderSesion(): void {
-    const nuevaExp = new Date(Date.now() + 1 * 60 * 1000); 
+    const nuevaExp = new Date(Date.now() + 10 * 60 * 1000); 
     localStorage.setItem(this.FRONT_EXP_KEY, nuevaExp.toISOString());
   }
 
@@ -112,6 +112,30 @@ export class AuthService {
     return userData?.token || null;
   }
 
+  getUserId(): number {
+    const token = this.getToken();
+    if (!token) return 0;
+    const decoded = this.jwtHelper.decodeToken(token);
+    return decoded.UserId || 0;
+  }
+
+  getUserName(): string {
+    const token = this.getToken();
+    if (!token) return '';
+    
+    const decoded = this.jwtHelper.decodeToken(token);
+    
+    // Busca el claim del nombre (puede venir de varias formas)
+    const nameKey = Object.keys(decoded).find(key =>
+      key.endsWith('name') || 
+      key.toLowerCase() === 'claimtypes.name' || 
+      key === 'Name' ||
+      key === 'sub' 
+    );
+    
+    return nameKey ? decoded[nameKey] : '';
+  }
+
   getUserRole(): string {
     const token = this.getToken();
     if (!token) return '';
@@ -122,13 +146,5 @@ export class AuthService {
     );
   
     return roleKey ? decoded[roleKey] : '';
-  }
-  
-
-  getUserId(): number {
-    const token = this.getToken();
-    if (!token) return 0;
-    const decoded = this.jwtHelper.decodeToken(token);
-    return decoded.UserId || 0;
   }
 }

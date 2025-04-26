@@ -14,7 +14,7 @@ namespace Business
     ///<summary>
     ///Clase de negocio encargada de la logica relacionada con Form en el sistema;
     ///</summary>
-    public class FormBusiness : IBusiness<FormDTO, FormDTO>
+    public class FormBusiness : JwtBaseBusiness<Form, FormDTO> ,IBusiness<FormDTO, FormDTO>
     {
         private readonly IData<Form> _formData;
         private readonly IDeleteStrategyResolver<Form> _strategyResolver;
@@ -26,7 +26,8 @@ namespace Business
         /// </summary>
         /// <param name="formData">Capa de acceso a datos para Form.</param>
         /// <param name="logger">Logger para registro de Form</param>
-        public FormBusiness(IData<Form> formData, IDeleteStrategyResolver<Form> strategyResolver, ILogger<FormBusiness> logger, IMapper mapper)
+        public FormBusiness(IJwtData<Form> jwtData, IData<Form> formData, IDeleteStrategyResolver<Form> strategyResolver, ILogger<FormBusiness> logger, IMapper mapper)
+            :base(jwtData, mapper, logger)
         {
             _formData = formData;
             _strategyResolver = strategyResolver;
@@ -112,7 +113,7 @@ namespace Business
         /// </exception>
         public async Task<FormDTO> CreateAsync(FormDTO formDTO)
         {
-            ValidateForm(formDTO);
+            await ValidateForm(formDTO);
 
             try
             {
@@ -218,7 +219,7 @@ namespace Business
         /// <summary>
         /// Valida los datos del formulario.
         /// </summary>
-        private void ValidateForm(FormDTO formDTO)
+        private async Task ValidateForm(FormDTO formDTO)
         {
             if (formDTO == null)
             {
@@ -230,6 +231,27 @@ namespace Business
                 _logger.LogWarning("Intento de crear/actualizar un Form con Name vacío.");
                 throw new ValidationException("Name", "El nombre del Form es obligatorio.");
             }
+
+            var normalizedNewName = Normalize(formDTO.Name);
+
+            var allForms = await _formData.GetAllAsync();
+
+            var exists = allForms.Any(f =>
+                Normalize(f.Name) == normalizedNewName
+            );
+
+            if (exists)
+                throw new ValidationException("Ya existe un formulario con ese nombre.");
+        }
+
+        /// <summary>
+        /// Normazalia cualquier String que reciba por parametro (Elimina Espacios y Aplicar Lower)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string Normalize(string input)
+        {
+            return input.Trim().ToLower().Replace(" ", "");
         }
     }
 }
