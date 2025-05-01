@@ -44,33 +44,33 @@ import { RegisterComponent } from './auth/register/register.component';
 
 export const routes: Routes = [
     {path: '', component:LandingComponent},
-    {path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    {path: 'login', component: LoginComponent},
+    { path: 'register', component: RegisterComponent},
 
     // Form
-    {path: 'form', component:IndiceFormComponent},
-    {path: 'form/create', component:CreateFormComponent},
-    {path: 'form/update/:id', component:UpdateFormComponent},
+    {path: 'form', component:IndiceFormComponent, canActivate: [AuthGuard]},
+    {path: 'form/create', component:CreateFormComponent, canActivate: [AuthGuard]},
+    {path: 'form/update/:id', component:UpdateFormComponent, canActivate: [AuthGuard]},
 
     // Module
-    {path: 'module', component:IndiceModuleComponent},
-    {path: 'module/create', component:CreateModuleComponent},
-    {path: 'module/update/:id', component:UpdateModuleComponent},
+    {path: 'module', component:IndiceModuleComponent, canActivate: [AuthGuard]},
+    {path: 'module/create', component:CreateModuleComponent, canActivate: [AuthGuard]},
+    {path: 'module/update/:id', component:UpdateModuleComponent, canActivate: [AuthGuard]},
 
     // Permission
-    {path: 'permission', component:IndicePermissionComponent},
-    {path: 'permission/create', component:CreatePermissionComponent},
-    {path: 'permission/update/:id', component:UpdatePermissionComponent},
+    {path: 'permission', component:IndicePermissionComponent, canActivate: [AuthGuard]},
+    {path: 'permission/create', component:CreatePermissionComponent, canActivate: [AuthGuard]},
+    {path: 'permission/update/:id', component:UpdatePermissionComponent, canActivate: [AuthGuard]},
 
     // Person
-    {path: 'person', component:IndicePersonComponent},
-    {path: 'person/create', component:CreatePersonComponent},
-    {path: 'person/update/:id', component:UpdatePersonComponent},
+    {path: 'person', component:IndicePersonComponent, canActivate: [AuthGuard]},
+    {path: 'person/create', component:CreatePersonComponent, canActivate: [AuthGuard]},
+    {path: 'person/update/:id', component:UpdatePersonComponent, canActivate: [AuthGuard]},
 
     // Rol
-    {path: 'rol', component:IndiceRolComponent},
-    {path: 'rol/create', component:CreateRolComponent},
-    {path: 'rol/update/:id', component:UpdateRolComponent},
+    {path: 'rol', component:IndiceRolComponent, canActivate: [AuthGuard]},
+    {path: 'rol/create', component:CreateRolComponent, canActivate: [AuthGuard]},
+    {path: 'rol/update/:id', component:UpdateRolComponent, canActivate: [AuthGuard]},
 
     // User
     { path: 'user', component: IndiceUserComponent, canActivate: [AuthGuard] },
@@ -78,17 +78,17 @@ export const routes: Routes = [
     { path: 'user/update/:id', component: UpdateUserComponent,canActivate: [AuthGuard] },
 
     // RolFormPermission
-    {path: 'rolFormPermission', component:IndiceRolFormPermissionComponent},
-    {path: 'rolFormPermission/create', component:CreateRolFormPermissionComponent},
-    {path: 'rolFormPermission/update/:id', component:UpdateRolFormPermissionComponent},
+    {path: 'rolFormPermission', component:IndiceRolFormPermissionComponent, canActivate: [AuthGuard]},
+    {path: 'rolFormPermission/create', component:CreateRolFormPermissionComponent, canActivate: [AuthGuard]},
+    {path: 'rolFormPermission/update/:id', component:UpdateRolFormPermissionComponent, canActivate: [AuthGuard]},
 
     // FormModule
-    {path: 'formModule', component:IndiceFormModuleComponent},
-    {path: 'formModule/create', component:CreateFormModuleComponent},
-    {path: 'formModule/update/:id', component:UpdateFormModuleComponent},
+    {path: 'formModule', component:IndiceFormModuleComponent, canActivate: [AuthGuard]},
+    {path: 'formModule/create', component:CreateFormModuleComponent, canActivate: [AuthGuard]},
+    {path: 'formModule/update/:id', component:UpdateFormModuleComponent, canActivate: [AuthGuard]},
 
     // RolUser
-    {path: 'rolUser', component:IndiceRolUserComponent},
-    {path: 'rolUser/create', component:CreateRolUserComponent},
-    {path: 'rolUser/update/:id', component:UpdateRolUserComponent},
+    {path: 'rolUser', component:IndiceRolUserComponent, canActivate: [AuthGuard]},
+    {path: 'rolUser/create', component:CreateRolUserComponent, canActivate: [AuthGuard]},
+    {path: 'rolUser/update/:id', component:UpdateRolUserComponent, canActivate: [AuthGuard]},
 ];
